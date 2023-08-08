@@ -1,0 +1,32 @@
+.form__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__header__wrapper__div {
+    width: 100%;
+    background: #e8e8e8;
+    color: gray;
+    padding: 10px 10px 10px 40px;
+}
+
+.form__content__wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 10px 50px 20px 20px;
+}
+
+.form__content__wraper p {
+    margin: 10px;
+}
+
+.form__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: 30px;
+}

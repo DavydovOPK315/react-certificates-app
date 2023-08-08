@@ -1,0 +1,16 @@
+.page__wrapper {
+    width: inherit;
+}
+
+.page {
+    padding: 10px;
+    border: 1px solid teal;
+    cursor: pointer;
+    background: white;
+    color: black;
+}
+
+.page__current {
+    border: 2px solid orange;
+    font-weight: bold;
+}
