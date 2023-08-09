@@ -34,6 +34,18 @@ const Certificates = () => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1000);
+    const [searchName, setSearchName] = useState('')
+    const [searchDesc, setSearchDesc] = useState('')
+    const [deleteFormModal, setDeleteFormModal] = useState(false)
+
+    const token = useSelector(state => state.token.token)
+    const reduxCertificates = useSelector(state => state.certificates.certificates)
+    const isCertificatesLoading = useSelector(state => state.loading.loading)
+    const modal = useSelector(state => state.modal.modal)
+    const globalMessage = useSelector(state => state.message.message)
+
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         console.log("Certificates useEffect")
@@ -53,20 +65,15 @@ const Certificates = () => {
         setPage(1);
     }
 
-    const dispatch = useDispatch()
-    const token = useSelector(state => state.token.token)
-    const reduxCertificates = useSelector(state => state.certificates.certificates)
-    const isCertificatesLoading = useSelector(state => state.loading.loading)
-    const [deleteFormModal, setDeleteFormModal] = useState(false)
-    const modal = useSelector(state => state.modal.modal)
     const setModal = (modalState) => {
         dispatch(setModalStateAction(modalState))
     }
 
     const addTagToCertificateInModal = (data) => {
         const tagName = data.tag;
-        if (typeof tagName === "string" && tagName.trim() === "")
+        if (typeof tagName === "string" && tagName.trim() === "") {
             return;
+        }
 
         if (typeof certificateInModal.tagResponseModels === "undefined") {
             setCertificateInModal(certificateInModal.tagResponseModels = [])
@@ -86,15 +93,12 @@ const Certificates = () => {
     const updateCertificate = () => {
         console.log("updating certificate")
         dispatch(updateCertificatesThunk(certificateInModal, token))
-        dispatch(fetchCertificatesThunk(limit, page, setTotalPages))
-
         getCertificatesWithTimeout()
     }
 
     const addCertificate = () => {
         console.log("adding certificate")
         dispatch(addCertificatesThunk(certificateInModal, token))
-
         getCertificatesWithTimeout()
     }
 
@@ -106,81 +110,74 @@ const Certificates = () => {
 
     const getCertificatesWithTimeout = () => {
         setTimeout(() => {
-            dispatch(fetchCertificatesThunk(limit, page, setTotalPages))
-        }, 200);
+            dispatch(fetchCertificatesThunk(limit, page, setTotalPages));
+            resetForm();
+        }, 400);
     }
 
-    const globalMessage = useSelector(state => state.message.message)
-
-    const [searchName, setSearchName] = useState('')
-    const [searchDesc, setSearchDesc] = useState('')
-
     const getAllByNameOrDescription = () => {
-        // const pageNumber = page > 1 ? 1 : page
-        // setPage(pageNumber)
         dispatch(getCertificatesByNameOrDescriptionThunk(limit, page, searchName, searchDesc))
     }
 
     const resetForm = () => {
+        console.log("resetForm")
 
-        console.log("resetForm certificateInModal ", certificateInModal)
-        console.log("resetForm certificateInModal ", certificateInModal.name)
-
-        // reset({});
         setCertificateInModal({
+            id: '',
             name: '',
             description: '',
             duration: '',
             price: '',
             tag: '',
-        })
-
-        // setTimeout(() => {
-        reset({
-            title: certificateInModal.name,
-            description: certificateInModal.description,
-            duration: certificateInModal.duration,
-            price: certificateInModal.price,
-            tag: '',
-        }, {
-            keepErrors: true,
-            keepDirty: true,
         });
-        // }, 200);
+        reset();
     }
 
     const handleChange = (e) => {
         let { name, value } = e.target;
-
         console.log("handleChange => ", name, value);
+
         name = name === "title" ? "name" : name;
         setCertificateInModal({
             ...certificateInModal,
             [name]: value,
         });
-
     };
 
     return (
         <div className="div__central">
             {globalMessage &&
                 <div className="global__message">
-                    <a href="/" title="Message icon"><img src="https://www.freeiconspng.com/uploads/error-icon-4.png" width="30" alt="Error Icon" /></a>
+                    <a href="/" title="Message icon">
+                        <img src="https://www.freeiconspng.com/uploads/error-icon-4.png" width="30" alt="Error Icon" />
+                    </a>
                     <h2>Message: {globalMessage}!</h2>
                 </div>
             }
 
             <div className='search__bar'>
-                <MyInput style={{ height: "35px", margin: "0px" }} value={searchName} onChange={(e) => setSearchName(e.target.value)} type="text" placeholder="Search by name..." />
-                <MyButton style={{ height: "35px", margin: "0px" }} onClick={getAllByNameOrDescription}>Go!</MyButton>
+                <MyInput style={{ height: "35px", margin: "0px" }}
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                    type="text" placeholder="Search by name..."
+                />
+                <MyButton style={{ height: "35px", margin: "0px" }} onClick={getAllByNameOrDescription}>
+                    Go!
+                </MyButton>
             </div>
 
             <div className='search__bar'>
-                <MyInput style={{ height: "35px", margin: "0px" }} value={searchDesc} onChange={(e) => setSearchDesc(e.target.value)} type="text" placeholder="Search by description..." />
-                <MyButton style={{ height: "35px", margin: "0px" }} onClick={getAllByNameOrDescription}>Go!</MyButton>
+                <MyInput style={{ height: "35px", margin: "0px" }}
+                    value={searchDesc}
+                    onChange={(e) => setSearchDesc(e.target.value)}
+                    type="text" placeholder="Search by description..."
+                />
+                <MyButton style={{ height: "35px", margin: "0px" }} onClick={getAllByNameOrDescription}>
+                    Go!
+                </MyButton>
             </div>
 
-            <MyModal visible={modal} setVisible={setModal} setCertificateInModal={setCertificateInModal} resetForm={resetForm}>
+            <MyModal visible={modal} setVisible={setModal} resetForm={resetForm}>
                 <CertificateForm
                     certificateInModal={certificateInModal}
                     setVisible={setModal}
@@ -198,12 +195,12 @@ const Certificates = () => {
                 </CertificateForm>
             </MyModal>
 
-            <MyModal visible={deleteFormModal} setVisible={setDeleteFormModal} setCertificateInModal={setCertificateInModal} resetForm={resetForm}>
+            <MyModal visible={deleteFormModal} setVisible={setDeleteFormModal} resetForm={resetForm}>
                 <CertificateDeleteForm
                     certificateInModal={certificateInModal}
-                    setCertificateInModal={setCertificateInModal}
                     removeCertificate={removeCertificate}
                     setDeleteFormModal={setDeleteFormModal}
+                    resetForm={resetForm}
                 >
                 </CertificateDeleteForm>
             </MyModal>

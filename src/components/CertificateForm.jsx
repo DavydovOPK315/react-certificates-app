@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MyInput from './UI/input/MyInput'
 import MyButton from './UI/button/MyButton'
 import './../styles/CertificateForm.css'
@@ -29,7 +29,6 @@ const CertificateForm = ({
 
         setVisible(false)
         addCertificate()
-        // resetForm();
     }
 
     const updateButtonAction = (data) => {
@@ -45,13 +44,11 @@ const CertificateForm = ({
         )
         setVisible(false)
         updateCertificate()
-        // resetForm();
     }
 
     const cancelButtonAction = (event) => {
         event.preventDefault();
         console.log("cancelButtonAction")
-        // setCertificateInModal({})
         setVisible(false);
         resetForm();
     }
@@ -66,7 +63,6 @@ const CertificateForm = ({
                     <p>Add new certificate</p>
                 }
             </div>
-
 
             <div className="form__content__wraper">
 

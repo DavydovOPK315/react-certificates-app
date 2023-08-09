@@ -38,7 +38,6 @@ const Login = () => {
 
   const doMyCustomLogin = async (data) => {
     await getToken(data.email, data.password);
-    console.log("Login tokenError => ", tokenError);
   }
 
   useEffect(() => {

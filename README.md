@@ -68,3 +68,45 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+
+
+### Libraries you need
+!Best command to create React app in already existing project:
+npx create-react-app .
+
+	!React 
+npm install react-dom
+npm install react react-dom
+
+	!axios (to get data from server)
+	https://jsonplaceholder.typicode.com/posts
+npm i axios
+
+	!to add animation
+npm install react-transition-group --save
+
+	!React router
+npm install react-router-dom
+
+	!Yup Form validation
+npm install react-hook-form @hookform/resolvers yup
+
+	!querystring plugin (to convert json to string)
+npm install querystring
+
+	!Redux
+npm i redux react-redux
+
+	!To see redux state and more
+npm i redux-devtools-extension
+and add (Redux DevTools in Chrome)
+https://www.youtube.com/watch?v=ldgnmiPIftw&list=PL6DxKON1uLOHsBCJ_vVuvRsW84VnqmPp6&index=3
+
+	!Redux-thunk
+	!to with asynchronous code in Redux
+npm i redux-thunk

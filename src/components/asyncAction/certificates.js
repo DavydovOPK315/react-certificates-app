@@ -5,6 +5,8 @@ import { setGlobalErrorAction } from "../../store/errorGlobalReducer";
 import { getPageCount } from "../../utils/pages";
 import { setGlobalMessageAction } from "../../store/messageGlobalReducer";
 
+const BASE_URL = "http://localhost:9090/api/v1/certificates";
+
 export const fetchCertificatesThunk = (limit, page, setTotalPages) => {
     return function (dispatch) {
         dispatch(setLoadingAction(true));
@@ -15,7 +17,7 @@ export const fetchCertificatesThunk = (limit, page, setTotalPages) => {
 
         axios({
             method: 'get',
-            url: `http://localhost:9090/api/v1/certificates?pageNumber=${page}&pageSize=${limit}`,
+            url: `${BASE_URL}?pageNumber=${page}&pageSize=${limit}`,
             headers: headers,
         }).then(response => {
             console.log("fetchCertificatesThunk response ", response)
@@ -34,10 +36,6 @@ export const fetchCertificatesThunk = (limit, page, setTotalPages) => {
 
 export const getCertificatesByNameOrDescriptionThunk = (limit, page, name, desc) => {
     return function (dispatch) {
-
-        console.log(`name: ${name}`)
-        console.log(`desc: ${desc}`)
-
         dispatch(setLoadingAction(true));
 
         const headers = {
@@ -46,11 +44,10 @@ export const getCertificatesByNameOrDescriptionThunk = (limit, page, name, desc)
 
         axios({
             method: 'get',
-            url: `http://localhost:9090/api/v1/certificates/search/name-or-description?name=${name}&description=${desc}&pageNumber=${page}&pageSize=${limit}`,
+            url: `${BASE_URL}/search/name-or-description?name=${name}&description=${desc}&pageNumber=${page}&pageSize=${limit}`,
             headers: headers,
         }).then(response => {
             console.log("getCertificatesByNameOrDescriptionThunk response ", response)
-            console.log("getCertificatesByNameOrDescriptionThunk response data", response.data)
             dispatch(getCertificatesAction(response.data))
         }).catch(e => {
             console.log("get certificates by name  error =>", e)
@@ -82,7 +79,7 @@ export const updateCertificatesThunk = (certificate, token) => {
 
         axios({
             method: 'put',
-            url: `http://localhost:9090/api/v1/certificates/${certificate.id}`,
+            url: `${BASE_URL}/${certificate.id}`,
             data: payload,
             headers: headers,
         }).then((response) => {
@@ -108,7 +105,7 @@ export const removeCertificatesThunk = (certificate, token) => {
 
         axios({
             method: 'DELETE',
-            url: `http://localhost:9090/api/v1/certificates/${certificate.id}`,
+            url: `${BASE_URL}/${certificate.id}`,
             headers: headers,
         }).then((response) => {
             console.log("removeCertificatesThunk response ", response)
@@ -139,7 +136,7 @@ export const addCertificatesThunk = (certificate, token) => {
 
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:9090/api/v1/certificates',
+            url: `${BASE_URL}`,
             data: payload,
             headers: headers,
         }).then((response) => {

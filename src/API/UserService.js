@@ -1,14 +1,8 @@
 import axios from "axios";
-import { setGlobalMessageAction } from "../store/messageGlobalReducer";
-import { setGlobalErrorAction } from "../store/errorGlobalReducer";
-import { useDispatch } from "react-redux";
-
-// var dispatch = (link) => useDispatch(link);
 
 export default class UserService {
 
     static async getAuthByKeyCloak(email, password) {
-
         let querystring = require('querystring');
 
         const response = await axios.post(
@@ -26,12 +20,6 @@ export default class UserService {
                 }
             }
         )
-        // .catch(e => {
-        //     console.log("Authentication error =>", e)
-        //     // dispatch(setGlobalMessageAction(e.response["data"].errorMessage))
-        //     // dispatch(setGlobalErrorAction(e.response.status))
-        // });
-        console.log("return ", response)
         return response.data['access_token'];
     }
 }

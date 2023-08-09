@@ -1,18 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cl from "./MyModal.module.css"
 
-const MyModal = ({ children, visible, setVisible, setCertificateInModal, resetForm }) => {
-
+const MyModal = ({ children, visible, setVisible, resetForm }) => {
     const rootClasses = [cl.myModal]
 
-    if (visible) {
-        rootClasses.push(cl.active)
-    }
+        if (visible) {
+            rootClasses.push(cl.active)
+        }
 
     return (
         <div className={rootClasses.join(' ')}
             onClick={() => {
-                // setCertificateInModal({})
                 setVisible(false)
                 resetForm()
             }}

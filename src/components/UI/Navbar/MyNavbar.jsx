@@ -26,7 +26,6 @@ const MyNavbar = () => {
 
             if (globalError === 403) {
                 dispatch(setGlobalMessageAction("You do not have permission"))
-                // dispatch(removeAccessTokenAction())
                 navigate("/api/v1/login")
             }
         }

@@ -2,8 +2,7 @@ import React from 'react'
 import MyButton from './UI/button/MyButton'
 import './../styles/CertificateDeleteForm.css'
 
-const CertificateDeleteForm = ({ certificateInModal, setCertificateInModal, removeCertificate, setDeleteFormModal }) => {
-
+const CertificateDeleteForm = ({ certificateInModal, removeCertificate, setDeleteFormModal, resetForm }) => {
     const removeCertificateAction = (e) => {
         e.preventDefault();
         removeCertificate();
@@ -12,8 +11,8 @@ const CertificateDeleteForm = ({ certificateInModal, setCertificateInModal, remo
 
     const cancelButtonAction = (e) => {
         e.preventDefault();
-        setCertificateInModal({});
         setDeleteFormModal(false);
+        resetForm();
     }
 
     return (
